@@ -28,14 +28,12 @@ public class playerMovement : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
 
 
-    void Start()
-    {
+    void Start(){
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
     }
 
-    private void MyInput()
-    {
+    private void MyInput(){
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");    
 
@@ -47,10 +45,8 @@ public class playerMovement : MonoBehaviour
         }
     }
 
-    void Update()
-    {
+    void Update(){
         grounded = Physics.CheckSphere(groundCheck.position, groundDistance, whatIsGround);
-        Debug.Log(grounded);
         MyInput();
         SpeedControl();
 
@@ -61,8 +57,7 @@ public class playerMovement : MonoBehaviour
         }
     }
 
-    private void MovePlayer()
-    {
+    private void MovePlayer(){
         inputDir = orient.forward * verticalInput + orient.right * horizontalInput;
         
         if(grounded){
@@ -73,27 +68,23 @@ public class playerMovement : MonoBehaviour
     
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate(){
         MovePlayer();
     }
 
     private void SpeedControl(){
         Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-        if (flatVel.magnitude > speed)
-        {
+        if (flatVel.magnitude > speed){
             rb.linearVelocity = new Vector3(flatVel.normalized.x * speed, rb.linearVelocity.y, flatVel.normalized.z * speed);
         }
     }
 
-    private void Jump()
-    {
+    private void Jump(){
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    private void resetJump()
-    {
+    private void resetJump(){
         readyToJump = true;
     }
 }
